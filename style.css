@@ -1,0 +1,108 @@
+/* Переменные для легкой настройки цветов */
+:root {
+    --bg-color: #0d0d0d;       /* Почти черный фон */
+    --matrix-green: #00ff41;   /* Классический зеленый цвет терминала */
+    --glow: #008f11;           /* Цвет свечения текста */
+    --font-stack: 'VT323', monospace;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+    color: var(--matrix-green);
+    font-family: var(--font-stack);
+    font-size: 20px; /* Крупный текст для читаемости */
+    overflow-x: hidden; /* Убираем горизонтальный скролл */
+    height: 100vh;
+}
+
+/* Контейнер терминала с отступами */
+.terminal {
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1; /* Чтобы текст был под сканлайнами, но кликабелен - см. ниже */
+}
+
+/* Стили для ссылок (чтобы не были синими) */
+a {
+    color: var(--matrix-green);
+    text-decoration: underline;
+}
+
+a:hover {
+    background-color: var(--matrix-green);
+    color: var(--bg-color);
+    text-decoration: none;
+}
+
+/* === Эффекты текста === */
+.line, .prompt, input {
+    /* Легкое свечение текста */
+    text-shadow: 0 0 5px var(--glow);
+    line-height: 1.4;
+}
+
+.highlight {
+    color: #fff; /* Белый цвет для акцентов */
+    font-weight: bold;
+}
+
+/* === Поле ввода === */
+.input-line {
+    display: flex;
+    align-items: center;
+}
+
+.prompt {
+    margin-right: 10px;
+    white-space: nowrap; /* Чтобы промпт не ломался */
+}
+
+input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    flex-grow: 1; /* Занимает все доступное место */
+    caret-color: var(--matrix-green); /* Зеленый курсор */
+}
+
+/* === Эффект старого монитора (Scanlines) === */
+.scanlines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Градиент создает полоски */
+    background: linear-gradient(
+        to bottom,
+        rgba(255,255,255,0),
+        rgba(255,255,255,0) 50%,
+        rgba(0,0,0,0.2) 50%,
+        rgba(0,0,0,0.2)
+    );
+    background-size: 100% 4px; /* Размер полосок */
+    pointer-events: none; /* Пропускает клики сквозь себя */
+    z-index: 10;
+    opacity: 0.6;
+}
+
+/* === Адаптивность для мобильных === */
+@media (max-width: 600px) {
+    body {
+        font-size: 16px;
+    }
+    .terminal {
+        padding: 10px;
+    }
+}
