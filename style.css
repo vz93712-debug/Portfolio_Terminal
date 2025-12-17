@@ -1,9 +1,22 @@
-/* Переменные для легкой настройки цветов */
 :root {
-    --bg-color: #0d0d0d;       /* Почти черный фон */
-    --matrix-green: #00ff41;   /* Классический зеленый цвет терминала */
-    --glow: #008f11;           /* Цвет свечения текста */
-    --font-stack: 'VT323', monospace;
+    /* === ПАЛИТРА === */
+    --bg-color: #050505;
+
+    /* Основной цвет текста: Мягкий фосфорный зеленый (легче для глаз) */
+    --term-color: #a8ffab;
+
+    /* Цвет заголовков и акцентов: Чуть ярче */
+    --term-highlight: #4af626;
+
+    /* Ссылки: Циан (отлично сочетается с зеленым) */
+    --link-color: #5efff5;
+
+    /* Свечение: Уменьшили радиус, чтобы буквы не "мылились" */
+    --term-glow: #2d8f1e;
+
+    /* Цвета монитора */
+    --monitor-bg: #1a1a1a;
+    --screen-bg: #090a09; /* Очень темный зеленый, не чистый черный */
 }
 
 * {
@@ -14,95 +27,202 @@ body {
     margin: 0;
     padding: 0;
     background-color: var(--bg-color);
-    color: var(--matrix-green);
-    font-family: var(--font-stack);
-    font-size: 20px; /* Крупный текст для читаемости */
-    overflow-x: hidden; /* Убираем горизонтальный скролл */
+    color: var(--term-color);
+    font-family: "VT323", monospace;
     height: 100vh;
-}
-
-/* Контейнер терминала с отступами */
-.terminal {
-    padding: 20px;
-    max-width: 900px;
-    margin: 0 auto;
-    position: relative;
-    z-index: 1; /* Чтобы текст был под сканлайнами, но кликабелен - см. ниже */
-}
-
-/* Стили для ссылок (чтобы не были синими) */
-a {
-    color: var(--matrix-green);
-    text-decoration: underline;
-}
-
-a:hover {
-    background-color: var(--matrix-green);
-    color: var(--bg-color);
-    text-decoration: none;
-}
-
-/* === Эффекты текста === */
-.line, .prompt, input {
-    /* Легкое свечение текста */
-    text-shadow: 0 0 5px var(--glow);
-    line-height: 1.4;
-}
-
-.highlight {
-    color: #fff; /* Белый цвет для акцентов */
-    font-weight: bold;
-}
-
-/* === Поле ввода === */
-.input-line {
+    overflow: hidden;
     display: flex;
+    justify-content: center;
     align-items: center;
 }
 
+/* === ССЫЛКИ (ВАЖНОЕ УЛУЧШЕНИЕ) === */
+a {
+    color: var(--link-color);
+    text-decoration: none;
+    border-bottom: 1px dashed var(--link-color); /* Пунктирное подчеркивание */
+    transition: all 0.3s ease;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+a:hover {
+    background-color: var(--link-color);
+    color: #000; /* Инверсия при наведении */
+    box-shadow: 0 0 10px var(--link-color);
+}
+
+/* === ТИПОГРАФИКА И ЧИТАБЕЛЬНОСТЬ === */
+.terminal {
+    font-size: 20px; /* Оптимальный размер для VT323 */
+    line-height: 1.6; /* Добавили "воздуха" между строками */
+    letter-spacing: 0.5px; /* Чуть раздвинули буквы */
+}
+
+.line {
+    margin-bottom: 8px; /* Отступ между блоками сообщений */
+    max-width: 800px; /* Ограничиваем ширину текста, чтобы не бегать глазами */
+}
+
+/* Класс для заголовков (используй <span class="header"> в JS) */
+.header {
+    color: var(--term-highlight);
+    font-size: 1.1em;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-shadow: 0 0 5px var(--term-glow);
+    display: inline-block;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    border-bottom: 2px solid var(--term-glow);
+}
+
+/* Основной текст: убираем сильное свечение для четкости */
+.line {
+    text-shadow: 0 0 2px rgba(45, 143, 30, 0.5);
+}
+
+/* Команда пользователя */
+.user-command {
+    margin-top: 30px;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #333;
+    color: #fff;
+    font-size: 1.1em;
+}
+
+/* === ОСТАЛЬНЫЕ СТИЛИ МОНИТОРА (БЕЗ ИЗМЕНЕНИЙ) === */
+canvas#matrix-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    opacity: 0.15; /* Сделали фон еще тусклее, чтобы не мешал читать */
+}
+
+.monitor {
+    position: relative;
+    z-index: 10;
+    width: 95%;
+    max-width: 1000px;
+    height: 85vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.monitor-frame {
+    width: 100%;
+    height: 100%;
+    background: var(--monitor-bg);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow:
+        0 0 0 5px #222,
+        0 20px 50px rgba(0, 0, 0, 0.8);
+    border: 2px solid #333;
+}
+
+.screen-casing {
+    width: 100%;
+    height: 100%;
+    background: #000;
+    border-radius: 10px;
+    position: relative;
+    border: 2px solid #333;
+    overflow: hidden;
+}
+
+.screen {
+    width: 100%;
+    height: 100%;
+    background-color: var(--screen-bg);
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.terminal {
+    height: 100%;
+    overflow-y: auto;
+    padding: 30px; /* Больше отступов внутри */
+    padding-bottom: 60px;
+    scrollbar-width: none;
+}
+.terminal::-webkit-scrollbar {
+    display: none;
+}
+
+.input-line {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
 .prompt {
-    margin-right: 10px;
-    white-space: nowrap; /* Чтобы промпт не ломался */
+    margin-right: 12px;
+    color: var(--term-highlight);
+    font-weight: bold;
 }
 
 input {
     background: transparent;
     border: none;
     outline: none;
-    color: inherit;
+    color: #fff;
     font-family: inherit;
     font-size: inherit;
-    flex-grow: 1; /* Занимает все доступное место */
-    caret-color: var(--matrix-green); /* Зеленый курсор */
+    flex-grow: 1;
+    caret-color: var(--term-highlight);
+    text-shadow: 0 0 5px var(--term-highlight);
 }
 
-/* === Эффект старого монитора (Scanlines) === */
-.scanlines {
-    position: fixed;
+.crt-overlay {
+    position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    /* Градиент создает полоски */
-    background: linear-gradient(
-        to bottom,
-        rgba(255,255,255,0),
-        rgba(255,255,255,0) 50%,
-        rgba(0,0,0,0.2) 50%,
-        rgba(0,0,0,0.2)
-    );
-    background-size: 100% 4px; /* Размер полосок */
-    pointer-events: none; /* Пропускает клики сквозь себя */
-    z-index: 10;
-    opacity: 0.6;
+    right: 0;
+    bottom: 0;
+    background:
+        linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%),
+        linear-gradient(
+            90deg,
+            rgba(255, 0, 0, 0.03),
+            rgba(0, 255, 0, 0.01),
+            rgba(0, 0, 255, 0.03)
+        );
+    background-size:
+        100% 3px,
+        3px 100%;
+    pointer-events: none;
+    z-index: 5;
 }
 
-/* === Адаптивность для мобильных === */
+pre {
+    font-family: inherit;
+    white-space: pre;
+    overflow-x: auto;
+    font-size: 14px;
+    line-height: 14px;
+    color: var(--term-highlight);
+    margin: 15px 0;
+    opacity: 0.8;
+}
+
+/* Мобильная адаптация */
 @media (max-width: 600px) {
-    body {
-        font-size: 16px;
+    .monitor {
+        width: 100%;
+        height: 100vh;
+        border: none;
+    }
+    .monitor-frame {
+        padding: 0;
     }
     .terminal {
-        padding: 10px;
+        font-size: 18px;
+        padding: 15px;
     }
 }

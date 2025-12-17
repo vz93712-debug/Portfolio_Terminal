@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>System Interface // Junior Dev</title>
+        <title>System Interface // v2.0</title>
         <link rel="stylesheet" href="style.css" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -13,31 +13,48 @@
         />
     </head>
     <body>
-        <div class="scanlines"></div>
-        <div class="terminal">
-            <div id="output">
-                <div class="line">Initializing system... [OK]</div>
-                <div class="line">Loading user profile... [OK]</div>
-                <div class="line">Welcome to the Matrix.</div>
-                <div class="line">----------------------------------------</div>
-                <div class="line">
-                    Type <span class="highlight">help</span> to see available
-                    commands.
-                </div>
-                <br />
-            </div>
+        <canvas id="matrix-bg"></canvas>
 
-            <div class="input-line">
-                <span class="prompt">neo@portfolio:~$</span>
-                <input
-                    type="text"
-                    id="command-input"
-                    autocomplete="off"
-                    autofocus
-                    spellcheck="false"
-                />
+        <div class="monitor">
+            <div class="monitor-frame">
+                <div class="screen-casing">
+                    <div class="power-led"></div>
+
+                    <div class="screen">
+                        <div class="crt-overlay"></div>
+                        <div class="terminal" id="terminal-container">
+                            <div id="output">
+                                <div class="line">Booting system... [OK]</div>
+                                <div class="line">Loading kernel... [OK]</div>
+                                <div class="line">User detected.</div>
+                                <div class="line">
+                                    ----------------------------------------
+                                </div>
+                                <div class="line">
+                                    Type <span class="highlight">help</span> to
+                                    initialize.
+                                </div>
+                                <br />
+                            </div>
+
+                            <div class="input-line">
+                                <span class="prompt">neo@portfolio:~$</span>
+                                <input
+                                    type="text"
+                                    id="command-input"
+                                    autocomplete="off"
+                                    autofocus
+                                    spellcheck="false"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+            <div class="stand"></div>
+            <div class="base"></div>
         </div>
+
         <script src="script.js"></script>
     </body>
 </html>
